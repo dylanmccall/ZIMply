@@ -1041,6 +1041,10 @@ class FTSIndex(SearchIndex):
 
 class XapianIndex(SearchIndex):
     def __init__(self, db_offset, language, encoding, zim_filename, zim_version, alt_db_offset=None):
+        # FIXME: This is broken. We should have a ZimFile, instead of a filename, and we
+        #        should read all of the bytes from db_offset into another file. (Note:
+        #        shutil.copyfileobj is a good tool for that). Then we can pass _that_ file
+        #        to xapian.Database.
         super(XapianIndex, self).__init__()
         self._xapian_file = open(zim_filename)
         self._xapian_file.seek(db_offset)
